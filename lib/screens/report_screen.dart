@@ -7,7 +7,7 @@ class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key, this.beachName});
 
   @override
-  _ReportScreenState createState() => _ReportScreenState();
+  _ReportScreenState createState() => _ReportScreenState(); 
 }
 
 class _ReportScreenState extends State<ReportScreen> {

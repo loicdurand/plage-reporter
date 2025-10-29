@@ -13,7 +13,7 @@ class FirestoreService {
     return reports
         .where('beachId', isEqualTo: beachId)
         .orderBy('timestamp', descending: true)
-        .limit(3)
+        // .limit(3)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) =>

@@ -58,11 +58,15 @@ class HomeScreen extends StatelessWidget {
                   itemCount: sortedBeaches.length,
                   itemBuilder: (context, index) => BeachCard(
                     beachName: sortedBeaches[index],
+                    beachId: sortedBeaches[index]
+                        .toLowerCase()
+                        .replaceAll(' ', '-'), // ← CALCULÉ UNE FOIS
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) =>
-                              ReportScreen(beachName: sortedBeaches[index])),
+                        builder: (_) =>
+                            ReportScreen(beachName: sortedBeaches[index]),
+                      ),
                     ),
                   ),
                 );

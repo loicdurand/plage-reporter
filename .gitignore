@@ -1,0 +1,65 @@
+# Flutter/Dart
+.dart_tool/
+packages/
+build/
+*.g.dart
+*.freezed.dart
+*.config.dart
+lib/generated_plugin_registrant.dart
+
+# Firebase secrets (NE PAS COMMITTER !)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+
+# pubspec
+pubspec.lock  # Optionnel : si tu veux ignorer les versions lockées (pas recommandé pour prod)
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime
+.DartPrecompiled
+.dart_tool/build/
+
+# Web
+web/build/
+web/*.js
+web/*.map
+
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+android/app/src/debug/
+
+# iOS
+ios/.build/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/Podfile.lock
+ios/Runner.xcworkspace/
+
+# macOS
+*.swp
+*.swo
+
+# Test coverage
+coverage/

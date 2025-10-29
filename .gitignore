@@ -63,3 +63,6 @@ ios/Runner.xcworkspace/
 
 # Test coverage
 coverage/
+
+# Fixtures
+bin/node_modules

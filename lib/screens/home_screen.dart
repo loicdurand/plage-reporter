@@ -47,20 +47,22 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: StreamBuilder<List<String>>(
-              stream: firestore.getBeachNames(),
+            child: StreamBuilder<Map<String, int>>(
+              stream: firestore.getBeachPopularity(), // ← Nouvelle méthode
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const CircularProgressIndicator();
-                final beaches = snapshot.data!;
+                final popularity = snapshot.data!;
+                final sortedBeaches = popularity.keys.toList()
+                  ..sort((a, b) => popularity[b]!.compareTo(popularity[a]!));
                 return ListView.builder(
-                  itemCount: beaches.length,
+                  itemCount: sortedBeaches.length,
                   itemBuilder: (context, index) => BeachCard(
-                    beachName: beaches[index],
+                    beachName: sortedBeaches[index],
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => ReportScreen(beachName: beaches[index]),
-                      ),
+                          builder: (_) =>
+                              ReportScreen(beachName: sortedBeaches[index])),
                     ),
                   ),
                 );

@@ -16,16 +16,26 @@ class FirestoreService {
         .limit(3)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => BeachReport.fromJson(doc.data() as Map<String, dynamic>))
+            .map((doc) =>
+                BeachReport.fromJson(doc.data() as Map<String, dynamic>))
             .toList());
   }
 
   Stream<List<String>> getBeachNames() {
-    return reports
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => doc['beachName'] as String)
-            .toSet()
-            .toList());
+    return reports.snapshots().map((snapshot) => snapshot.docs
+        .map((doc) => doc['beachName'] as String)
+        .toSet()
+        .toList());
+  }
+
+  Stream<Map<String, int>> getBeachPopularity() {
+    return reports.snapshots().map((snapshot) {
+      final Map<String, int> counts = {};
+      for (var doc in snapshot.docs) {
+        final name = doc['beachName'] as String;
+        counts[name] = (counts[name] ?? 0) + 1;
+      }
+      return counts;
+    });
   }
 }

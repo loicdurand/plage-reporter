@@ -1,0 +1,123 @@
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+const db = admin.firestore();
+console.log({db});
+return;
+
+const beaches =  [
+  {
+      "beachId": "plage-caravelle",
+      "beachName": "Plage de la Caravelle",
+      "hasSargasses": false,
+      "hasWaves": true,
+      "isCrowded": true,
+      "isNoisy": false,
+      "rating": 5,
+      "comment": "Paradis ! Eau turquoise, cocotiers, snack à côté.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "grande-anse-deshaies",
+      "beachName": "Grande Anse",
+      "hasSargasses": true,
+      "hasWaves": true,
+      "isCrowded": false,
+      "isNoisy": false,
+      "rating": 4,
+      "comment": "Magnifique mais sargasses sur la gauche. Éviter le matin.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-gosier",
+      "beachName": "Plage du Gosier",
+      "hasSargasses": false,
+      "hasWaves": false,
+      "isCrowded": true,
+      "isNoisy": true,
+      "rating": 3,
+      "comment": "Pratique, proche de tout, mais beaucoup de monde et bruit.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-sainte-anne",
+      "beachName": "Plage de Sainte-Anne",
+      "hasSargasses": false,
+      "hasWaves": false,
+      "isCrowded": true,
+      "isNoisy": false,
+      "rating": 4,
+      "comment": "Calme, eau peu profonde, idéale famille.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "anse-bertrand",
+      "beachName": "Anse Bertrand",
+      "hasSargasses": true,
+      "hasWaves": true,
+      "isCrowded": false,
+      "isNoisy": false,
+      "rating": 3,
+      "comment": "Beau spot sauvage, mais vagues fortes et sargasses.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-malendure",
+      "beachName": "Plage de Malendure",
+      "hasSargasses": false,
+      "hasWaves": false,
+      "isCrowded": true,
+      "isNoisy": true,
+      "rating": 4,
+      "comment": "Top pour la plongée ! Tortues partout.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-petit-havre",
+      "beachName": "Plage de Petit-Havre",
+      "hasSargasses": false,
+      "hasWaves": true,
+      "isCrowded": false,
+      "isNoisy": false,
+      "rating": 5,
+      "comment": "Petit bijou discret, mer agitée mais propre.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-datcha",
+      "beachName": "Plage de la Datcha",
+      "hasSargasses": false,
+      "hasWaves": false,
+      "isCrowded": true,
+      "isNoisy": false,
+      "rating": 4,
+      "comment": "Ambiance locale, ti-punch, musique douce.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "anse-barque",
+      "beachName": "Anse à la Barque",
+      "hasSargasses": true,
+      "hasWaves": true,
+      "isCrowded": false,
+      "isNoisy": false,
+      "rating": 3,
+      "comment": "Sauvage, mais sargasses et courant fort.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+    {
+      "beachId": "plage-cluny",
+      "beachName": "Plage de Cluny",
+      "hasSargasses": false,
+      "hasWaves": true,
+      "isCrowded": false,
+      "isNoisy": false,
+      "rating": 4,
+      "comment": "Spot confidentiel, eau claire, peu de monde.",
+      "timestamp": (new Date()).toLocaleString(),
+    },
+  ];
+
+beaches.forEach(beach => {
+  db.collection('reports').add(beach);
+});

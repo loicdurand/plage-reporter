@@ -1,38 +1,46 @@
+// lib/theme.dart
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  brightness: Brightness.light,
-  scaffoldBackgroundColor: Colors.white,
-  cardColor: Colors.grey[200],
-  textTheme: const TextTheme(
-    bodyMedium: TextStyle(color: Colors.black87),
-    titleLarge: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
-  ),
-);
+class AppTheme {
+  static final lightTheme = ThemeData(
+    brightness: Brightness.light,
+    colorScheme: ColorScheme.light(
+      primary: Colors.orange.shade700,
+      secondary: Colors.blue.shade600,
+      surface: Colors.white,
+      background: Colors.grey.shade50,
+    ),
+    scaffoldBackgroundColor: Colors.grey.shade50,
+    cardColor: Colors.white,
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.black87),
+      titleLarge: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      filled: true,
+      fillColor: Colors.grey.shade100,
+    ),
+  );
 
-ThemeData darkTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  brightness: Brightness.dark,
-  scaffoldBackgroundColor: Colors.grey[900],
-  cardColor: Colors.grey[800],
-  textTheme: const TextTheme(
-    bodyMedium: TextStyle(color: Colors.white70),
-    titleLarge: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
-  ),
-);
-
-class ThemeProvider {
-  static const _themeKey = 'theme_mode';
-
-  Future<void> toggleTheme(bool isDark) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_themeKey, isDark);
-  }
-
-  Future<bool> isDarkMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_themeKey) ?? false;
-  }
+  static final darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    colorScheme: ColorScheme.dark(
+      primary: Colors.orange.shade600,
+      secondary: Colors.blue.shade400,
+      surface: Colors.grey.shade900,
+      background: Colors.grey.shade800,
+    ),
+    scaffoldBackgroundColor: Colors.grey.shade800,
+    cardColor: Colors.grey.shade900,
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.white70),
+      titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      filled: true,
+      fillColor: Colors.grey.shade700,
+    ),
+  );
 }

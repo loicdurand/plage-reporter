@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../services/firestore_service.dart';
 import '../widgets/beach_card.dart';
+import '../services/firestore_service.dart';
 import 'report_screen.dart';
-import 'settings_screen.dart';
+import 'settings_screen.dart'; // ← Ajoute
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -12,75 +12,54 @@ class HomeScreen extends StatelessWidget {
     final firestore = FirestoreService();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sable & Sargasses'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SettingsScreen()),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search beaches...',
-                border: OutlineInputBorder(),
+      appBar: AppBar(title: const Text('Sable & Sargasses')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
               ),
-              onChanged: (value) {
-                // TODO: Implement search filter
-              },
+              child: const Text(
+                'Sable & Sargasses',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
             ),
-          ),
-          Wrap(
-            spacing: 8,
-            children: [
-              FilterChip(label: Text('No Sargasses'), onSelected: (_) {}),
-              FilterChip(label: Text('Calm Sea'), onSelected: (_) {}),
-              FilterChip(label: Text('Quiet'), onSelected: (_) {}),
-            ],
-          ),
-          Expanded(
-            child: StreamBuilder<Map<String, int>>(
-              stream: firestore.getBeachPopularity(), // ← Nouvelle méthode
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const CircularProgressIndicator();
-                final popularity = snapshot.data!;
-                final sortedBeaches = popularity.keys.toList()
-                  ..sort((a, b) => popularity[b]!.compareTo(popularity[a]!));
-                return ListView.builder(
-                  itemCount: sortedBeaches.length,
-                  itemBuilder: (context, index) => BeachCard(
-                    beachName: sortedBeaches[index],
-                    beachId: sortedBeaches[index]
-                        .toLowerCase()
-                        .replaceAll(' ', '-'), // ← CALCULÉ UNE FOIS
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            ReportScreen(beachName: sortedBeaches[index]),
-                      ),
-                    ),
-                  ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Paramètres'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SettingsScreen()),
                 );
               },
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ReportScreen()),
+          ],
+        ),
+      ),
+      body: StreamBuilder<Map<String, int>>(
+        stream: firestore.getBeachPopularity(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+          final popularity = snapshot.data!;
+          final sortedBeaches = popularity.keys.toList()
+            ..sort((a, b) => popularity[b]!.compareTo(popularity[a]!));
+          return ListView.builder(
+            itemCount: sortedBeaches.length,
+            itemBuilder: (context, index) => BeachCard(
+              beachName: sortedBeaches[index],
+              beachId: sortedBeaches[index].toLowerCase().replaceAll(' ', '-'),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ReportScreen(beachName: sortedBeaches[index]),
+                ),
+              ),
             ),
-            child: const Text('Add New Beach'),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

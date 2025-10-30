@@ -1,10 +1,10 @@
 class BeachReport {
   final String beachId;
   final String beachName;
-  final bool hasSargasses;
-  final bool hasWaves;
-  final bool isCrowded;
-  final bool isNoisy;
+  final int sargassesLevel; // ← 0 à 3
+  final int wavesLevel;     // ← 0 à 3
+  final int crowdLevel;     // ← 0 à 3
+  final int noiseLevel;     // ← 0 à 3
   final int rating;
   final String? comment;
   final DateTime timestamp;
@@ -12,10 +12,10 @@ class BeachReport {
   BeachReport({
     required this.beachId,
     required this.beachName,
-    required this.hasSargasses,
-    required this.hasWaves,
-    required this.isCrowded,
-    required this.isNoisy,
+    required this.sargassesLevel,
+    required this.wavesLevel,
+    required this.crowdLevel,
+    required this.noiseLevel,
     required this.rating,
     this.comment,
     required this.timestamp,
@@ -24,10 +24,10 @@ class BeachReport {
   Map<String, dynamic> toJson() => {
         'beachId': beachId,
         'beachName': beachName,
-        'hasSargasses': hasSargasses,
-        'hasWaves': hasWaves,
-        'isCrowded': isCrowded,
-        'isNoisy': isNoisy,
+        'sargassesLevel': sargassesLevel,
+        'wavesLevel': wavesLevel,
+        'crowdLevel': crowdLevel,
+        'noiseLevel': noiseLevel,
         'rating': rating,
         'comment': comment,
         'timestamp': timestamp.toIso8601String(),
@@ -36,10 +36,10 @@ class BeachReport {
   factory BeachReport.fromJson(Map<String, dynamic> json) => BeachReport(
         beachId: json['beachId'],
         beachName: json['beachName'],
-        hasSargasses: json['hasSargasses'],
-        hasWaves: json['hasWaves'],
-        isCrowded: json['isCrowded'],
-        isNoisy: json['isNoisy'],
+        sargassesLevel: json['sargassesLevel'],
+        wavesLevel: json['wavesLevel'],
+        crowdLevel: json['crowdLevel'],
+        noiseLevel: json['noiseLevel'],
         rating: json['rating'],
         comment: json['comment'],
         timestamp: DateTime.parse(json['timestamp']),

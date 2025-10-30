@@ -1,11 +1,10 @@
-// lib/widgets/beach_card.dart
 import 'package:flutter/material.dart';
 import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
 
 class BeachCard extends StatefulWidget {
   final String beachName;
-  final String beachId; // ← ON LE PASSE DIRECT
+  final String beachId;
   final VoidCallback onTap;
 
   const BeachCard({
@@ -31,11 +30,15 @@ class _BeachCardState extends State<BeachCard> {
     return "il y a ${diff.inDays} j";
   }
 
-  Widget _getIcon(bool condition, IconData iconTrue, IconData iconFalse) {
-    return Icon(
-      condition ? iconTrue : iconFalse,
-      color: condition ? Colors.red : Colors.green,
-      size: 20,
+  Widget _getLevelIcon(int level, IconData icon) {
+    final colors = [Colors.grey, Colors.orangeAccent, Colors.orange, Colors.red];
+    final labels = ['', 'Peu', 'Moyen', 'Élevé'];
+    return Row(
+      children: [
+        Icon(icon, color: colors[level], size: 20),
+        const SizedBox(width: 4),
+        Text(labels[level], style: TextStyle(fontSize: 12, color: colors[level])),
+      ],
     );
   }
 
@@ -44,67 +47,81 @@ class _BeachCardState extends State<BeachCard> {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue.shade100,
-          child: Text(
-            widget.beachName[0],
-            style: const TextStyle(fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0), // ← Plus d’espace vertical
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.blue.shade100,
+            child: Text(
+              widget.beachName[0],
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        title: Text(widget.beachName, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: StreamBuilder<List<BeachReport>>(
-          stream: firestore.getReports(widget.beachId), // ← beachId propre
-          builder: (context, snapshot) {
-            // MAJ du cache
-            if (snapshot.hasData) {
-              _cachedReports = snapshot.data!;
-            }
+          title: Text(widget.beachName, style: const TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: StreamBuilder<List<BeachReport>>(
+            stream: firestore.getReports(widget.beachId),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                _cachedReports = snapshot.data!;
+              }
+              final reports = _cachedReports ?? [];
+              if (reports.isEmpty) {
+                return const Text("Aucun avis");
+              }
+              final report = reports.first;
 
-            final reports = _cachedReports ?? [];
-            if (reports.isEmpty) {
-              return const Text("Aucun avis");
-            }
-
-            final report = reports.first;
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _timeAgo(report.timestamp),
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    _getIcon(report.hasSargasses, Icons.eco, Icons.eco_outlined),
-                    const SizedBox(width: 8),
-                    _getIcon(report.hasWaves, Icons.waves, Icons.waves_outlined),
-                    const SizedBox(width: 8),
-                    _getIcon(report.isCrowded, Icons.people, Icons.person_outline),
-                    const SizedBox(width: 8),
-                    _getIcon(report.isNoisy, Icons.volume_up, Icons.volume_off),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _timeAgo(report.timestamp),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      _getLevelIcon(report.sargassesLevel, Icons.eco),
+                      const SizedBox(width: 8),
+                      _getLevelIcon(report.wavesLevel, Icons.waves),
+                      const SizedBox(width: 8),
+                      _getLevelIcon(report.crowdLevel, Icons.people),
+                      const SizedBox(width: 8),
+                      _getLevelIcon(report.noiseLevel, Icons.volume_up),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      ...List.generate(5, (i) => Icon(
+                            i < report.rating ? Icons.star : Icons.star_border,
+                            color: Colors.amber,
+                            size: 16,
+                          )),
+                      const Spacer(),
+                      Text("${reports.length} avis"),
+                    ],
+                  ),
+                  // Ajout du commentaire
+                  if (report.comment != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      '"${report.comment}"',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey[700],
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    ...List.generate(5, (i) => Icon(
-                          i < report.rating ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
-                          size: 16,
-                        )),
-                    const Spacer(),
-                    Text("${reports.length} avis"),
-                  ],
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: widget.onTap,
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: widget.onTap,
       ),
     );
   }

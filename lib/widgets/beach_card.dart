@@ -1,4 +1,6 @@
+// lib/widgets/beach_card.dart
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
 
@@ -6,12 +8,20 @@ class BeachCard extends StatefulWidget {
   final String beachName;
   final String beachId;
   final VoidCallback onTap;
+  final bool filterNoSargasses;
+  final bool filterLowWaves;
+  final bool filterLowCrowd;
+  final bool filterLowNoise;
 
   const BeachCard({
     super.key,
     required this.beachName,
     required this.beachId,
     required this.onTap,
+    this.filterNoSargasses = false,
+    this.filterLowWaves = false,
+    this.filterLowCrowd = false,
+    this.filterLowNoise = false,
   });
 
   @override
@@ -31,13 +41,19 @@ class _BeachCardState extends State<BeachCard> {
   }
 
   Widget _getLevelIcon(int level, IconData icon) {
-    final colors = [Colors.grey, Colors.orangeAccent, Colors.orange, Colors.red];
+    final colors = [
+      Colors.grey,
+      Colors.orangeAccent,
+      Colors.orange,
+      Colors.red
+    ];
     final labels = ['', 'Peu', 'Moyen', 'Élevé'];
     return Row(
       children: [
         Icon(icon, color: colors[level], size: 20),
         const SizedBox(width: 4),
-        Text(labels[level], style: TextStyle(fontSize: 12, color: colors[level])),
+        Text(labels[level],
+            style: TextStyle(fontSize: 12, color: colors[level])),
       ],
     );
   }
@@ -48,7 +64,7 @@ class _BeachCardState extends State<BeachCard> {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0), // ← Plus d’espace vertical
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Colors.blue.shade100,
@@ -57,7 +73,8 @@ class _BeachCardState extends State<BeachCard> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          title: Text(widget.beachName, style: const TextStyle(fontWeight: FontWeight.bold)),
+          title: Text(widget.beachName,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           subtitle: StreamBuilder<List<BeachReport>>(
             stream: firestore.getReports(widget.beachId),
             builder: (context, snapshot) {
@@ -69,6 +86,21 @@ class _BeachCardState extends State<BeachCard> {
                 return const Text("Aucun avis");
               }
               final report = reports.first;
+
+              // === FILTRES ===
+              if (widget.filterNoSargasses && report.sargassesLevel != 0) {
+                return const SizedBox.shrink();
+              }
+              if (widget.filterLowWaves && report.wavesLevel > 1) {
+                return const SizedBox.shrink();
+              }
+              if (widget.filterLowCrowd && report.crowdLevel > 1) {
+                return const SizedBox.shrink();
+              }
+              if (widget.filterLowNoise && report.noiseLevel > 1) {
+                return const SizedBox.shrink();
+              }
+              // === FIN FILTRES ===
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,16 +124,44 @@ class _BeachCardState extends State<BeachCard> {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      ...List.generate(5, (i) => Icon(
-                            i < report.rating ? Icons.star : Icons.star_border,
-                            color: Colors.amber,
-                            size: 16,
-                          )),
+                      ...List.generate(
+                          5,
+                          (i) => Icon(
+                                i < report.rating
+                                    ? Icons.star
+                                    : Icons.star_border,
+                                color: Colors.amber,
+                                size: 16,
+                              )),
                       const Spacer(),
                       Text("${reports.length} avis"),
+                      const SizedBox(width: 8),
+                      // === BOUTON WHATSAPP ===
+                      GestureDetector(
+                        onTap: () {
+                          final levelText = (level) => [
+                                'Aucun',
+                                'Peu gênant',
+                                'Gênant',
+                                'Impraticable'
+                              ][level];
+                          final message = Uri.encodeComponent(
+                              "Plage ${report.beachName} :\n"
+                              "• Sargasses : ${levelText(report.sargassesLevel)}\n"
+                              "• Vagues : ${levelText(report.wavesLevel)}\n"
+                              "• Foule : ${levelText(report.crowdLevel)}\n"
+                              "• Bruit : ${levelText(report.noiseLevel)}\n"
+                              "• Note : ${report.rating} étoiles\n"
+                              "${report.comment != null ? 'Quote: \"$report.comment\"' : ''}");
+                          final url = 'https://wa.me/?text=$message';
+                          launchUrl(Uri.parse(url));
+                        },
+                        child: const Icon(Icons.share,
+                            size: 20, color: Colors.green),
+                      ),
                     ],
                   ),
-                  // Ajout du commentaire
+                  // === COMMENTAIRE ===
                   if (report.comment != null) ...[
                     const SizedBox(height: 8),
                     Text(

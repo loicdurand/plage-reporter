@@ -1,3 +1,4 @@
+// lib/screens/report_screen.dart
 import 'package:flutter/material.dart';
 import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
@@ -13,7 +14,7 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  String ? imagePath;
+  String? imagePath;
   int sargassesLevel = 0;
   int wavesLevel = 0;
   int crowdLevel = 0;
@@ -56,7 +57,7 @@ class _ReportScreenState extends State<ReportScreen> {
           color: Theme.of(context).cardColor, // ← Fond dynamique
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha:0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -88,9 +89,13 @@ class _ReportScreenState extends State<ReportScreen> {
                   decoration: BoxDecoration(
                     color: index < currentLevel
                         ? Colors.orange.shade600
-                        : Theme.of(context)
-                            .colorScheme
-                            .surfaceVariant, // ← Gris adapté
+                        : Colors.transparent, // ← Transparent à niveau 0
+                    border: Border.all(
+                      color: index < currentLevel
+                          ? Colors.orange.shade600
+                          : Theme.of(context).colorScheme.outline.withValues(alpha:0.2), // ← Bordure visible toujours
+                      width: 1.5, // ← Bordure plus épaisse pour distinction
+                    ),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 );
@@ -333,7 +338,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     Navigator.pop(context);
                   }
                 },
-                child: const Text('Envoyer l’avis',
+                child: const Text("Envoyer l'avis",
                     style: TextStyle(fontSize: 16)),
               ),
             ),

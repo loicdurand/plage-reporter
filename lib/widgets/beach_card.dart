@@ -5,6 +5,7 @@ import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
 
 class BeachCard extends StatefulWidget {
+  final String? imagePath;
   final String beachName;
   final String beachId;
   final VoidCallback onTap;
@@ -15,6 +16,7 @@ class BeachCard extends StatefulWidget {
 
   const BeachCard({
     super.key,
+    this.imagePath,
     required this.beachName,
     required this.beachId,
     required this.onTap,
@@ -58,129 +60,185 @@ class _BeachCardState extends State<BeachCard> {
     );
   }
 
+//OK
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue.shade100,
-            child: Text(
-              widget.beachName[0],
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          title: Text(widget.beachName,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: StreamBuilder<List<BeachReport>>(
-            stream: firestore.getReports(widget.beachId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                _cachedReports = snapshot.data!;
-              }
-              final reports = _cachedReports ?? [];
-              if (reports.isEmpty) {
-                return const Text("Aucun avis");
-              }
-              final report = reports.first;
-
-              // === FILTRES ===
-              if (widget.filterNoSargasses && report.sargassesLevel != 0) {
-                return const SizedBox.shrink();
-              }
-              if (widget.filterLowWaves && report.wavesLevel > 1) {
-                return const SizedBox.shrink();
-              }
-              if (widget.filterLowCrowd && report.crowdLevel > 1) {
-                return const SizedBox.shrink();
-              }
-              if (widget.filterLowNoise && report.noiseLevel > 1) {
-                return const SizedBox.shrink();
-              }
-              // === FIN FILTRES ===
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _timeAgo(report.timestamp),
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      _getLevelIcon(report.sargassesLevel, Icons.eco),
-                      const SizedBox(width: 8),
-                      _getLevelIcon(report.wavesLevel, Icons.waves),
-                      const SizedBox(width: 8),
-                      _getLevelIcon(report.crowdLevel, Icons.people),
-                      const SizedBox(width: 8),
-                      _getLevelIcon(report.noiseLevel, Icons.volume_up),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      ...List.generate(
-                          5,
-                          (i) => Icon(
-                                i < report.rating
-                                    ? Icons.star
-                                    : Icons.star_border,
-                                color: Colors.amber,
-                                size: 16,
-                              )),
-                      const Spacer(),
-                      Text("${reports.length} avis"),
-                      const SizedBox(width: 8),
-                      // === BOUTON WHATSAPP ===
-                      GestureDetector(
-                        onTap: () {
-                          final levelText = (level) => [
-                                'Aucun',
-                                'Peu gênant',
-                                'Gênant',
-                                'Impraticable'
-                              ][level];
-                          final message = Uri.encodeComponent(
-                              "Plage ${report.beachName} :\n"
-                              "• Sargasses : ${levelText(report.sargassesLevel)}\n"
-                              "• Vagues : ${levelText(report.wavesLevel)}\n"
-                              "• Foule : ${levelText(report.crowdLevel)}\n"
-                              "• Bruit : ${levelText(report.noiseLevel)}\n"
-                              "• Note : ${report.rating} étoiles\n"
-                              "${report.comment != null ? 'Quote: \"$report.comment\"' : ''}");
-                          final url = 'https://wa.me/?text=$message';
-                          launchUrl(Uri.parse(url));
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // === IMAGE COLLÉE À GAUCHE, PLEINE HAUTEUR ===
+            Container(
+              width: 80,
+              height: double.infinity,
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.grey.shade200,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: widget.imagePath != null
+                    ? Image.asset(
+                        'assets/images/${widget.imagePath!}',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(Icons.broken_image,
+                                color: Colors.grey, size: 32),
+                          );
                         },
-                        child: const Icon(Icons.share,
-                            size: 20, color: Colors.green),
+                      )
+                    : const Center(
+                        child: Icon(Icons.photo, color: Colors.grey, size: 32),
                       ),
-                    ],
-                  ),
-                  // === COMMENTAIRE ===
-                  if (report.comment != null) ...[
-                    const SizedBox(height: 8),
+              ),
+            ),
+
+            // === CONTENU À DROITE ===
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Titre
                     Text(
-                      '"${report.comment}"',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.grey[700],
-                      ),
-                      maxLines: 2,
+                      widget.beachName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+
+                    const SizedBox(height: 4),
+
+                    // Rapport
+                    StreamBuilder<List<BeachReport>>(
+                      stream: firestore.getReports(widget.beachId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          _cachedReports = snapshot.data!;
+                        }
+                        final reports = _cachedReports ?? [];
+                        if (reports.isEmpty) {
+                          return const Text("Aucun avis",
+                              style: TextStyle(fontSize: 13));
+                        }
+                        final report = reports.first;
+
+                        // === FILTRES ===
+                        if (widget.filterNoSargasses &&
+                            report.sargassesLevel != 0) {
+                          return const SizedBox.shrink();
+                        }
+                        if (widget.filterLowWaves && report.wavesLevel > 1) {
+                          return const SizedBox.shrink();
+                        }
+                        if (widget.filterLowCrowd && report.crowdLevel > 1) {
+                          return const SizedBox.shrink();
+                        }
+                        if (widget.filterLowNoise && report.noiseLevel > 1) {
+                          return const SizedBox.shrink();
+                        }
+                        // === FIN FILTRES ===
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _timeAgo(report.timestamp),
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.grey[600]),
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              children: [
+                                _getLevelIcon(report.sargassesLevel, Icons.eco),
+                                const SizedBox(width: 8),
+                                _getLevelIcon(report.wavesLevel, Icons.waves),
+                                const SizedBox(width: 8),
+                                _getLevelIcon(report.crowdLevel, Icons.people),
+                                const SizedBox(width: 8),
+                                _getLevelIcon(
+                                    report.noiseLevel, Icons.volume_up),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              children: [
+                                ...List.generate(
+                                    5,
+                                    (i) => Icon(
+                                          i < report.rating
+                                              ? Icons.star
+                                              : Icons.star_border,
+                                          color: Colors.amber,
+                                          size: 16,
+                                        )),
+                                const SizedBox(width: 6),
+                                Text("${reports.length} avis",
+                                    style: const TextStyle(fontSize: 12)),
+                                const Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    final levelText = (level) => [
+                                          'Aucun',
+                                          'Peu gênant',
+                                          'Gênant',
+                                          'Impraticable'
+                                        ][level];
+                                    final message = Uri.encodeComponent(
+                                        "Plage ${report.beachName} :\n"
+                                        "• Sargasses : ${levelText(report.sargassesLevel)}\n"
+                                        "• Vagues : ${levelText(report.wavesLevel)}\n"
+                                        "• Foule : ${levelText(report.crowdLevel)}\n"
+                                        "• Bruit : ${levelText(report.noiseLevel)}\n"
+                                        "• Note : ${report.rating} étoiles\n"
+                                        "${report.comment != null ? 'Quote: \"$report.comment\"' : ''}");
+                                    final url = 'https://wa.me/?text=$message';
+                                    launchUrl(Uri.parse(url));
+                                  },
+                                  child: const Icon(Icons.share,
+                                      size: 20, color: Colors.green),
+                                ),
+                              ],
+                            ),
+                            if (report.comment != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                '"${report.comment}"',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.grey[700],
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ],
+                        );
+                      },
+                    ),
                   ],
-                ],
-              );
-            },
-          ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-          onTap: widget.onTap,
+                ),
+              ),
+            ),
+
+            // === FLÈCHE À DROITE ===
+            const Padding(
+              padding: EdgeInsets.only(right: 8),
+              child:
+                  Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );

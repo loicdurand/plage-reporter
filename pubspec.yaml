@@ -29,3 +29,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/beach.jpg
+    - assets/images/placeholder_beach.jpg
+    - assets/images/plage-de-cluny.jpg

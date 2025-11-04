@@ -4,14 +4,16 @@ import '../services/firestore_service.dart';
 import 'comments_screen.dart';
 
 class ReportScreen extends StatefulWidget {
+  final String? imagePath;
   final String? beachName;
-  const ReportScreen({super.key, this.beachName});
+  const ReportScreen({super.key, this.beachName, this.imagePath});
 
   @override
   _ReportScreenState createState() => _ReportScreenState();
 }
 
 class _ReportScreenState extends State<ReportScreen> {
+  String ? imagePath;
   int sargassesLevel = 0;
   int wavesLevel = 0;
   int crowdLevel = 0;
@@ -32,6 +34,9 @@ class _ReportScreenState extends State<ReportScreen> {
     super.initState();
     if (widget.beachName != null) {
       selectedBeach = widget.beachName;
+    }
+    if (widget.imagePath != null) {
+      imagePath = widget.imagePath;
     }
   }
 

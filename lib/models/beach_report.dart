@@ -1,15 +1,17 @@
 class BeachReport {
+  final String? imagePath;
   final String beachId;
   final String beachName;
   final int sargassesLevel; // ← 0 à 3
-  final int wavesLevel;     // ← 0 à 3
-  final int crowdLevel;     // ← 0 à 3
-  final int noiseLevel;     // ← 0 à 3
+  final int wavesLevel; // ← 0 à 3
+  final int crowdLevel; // ← 0 à 3
+  final int noiseLevel; // ← 0 à 3
   final int rating;
   final String? comment;
   final DateTime timestamp;
 
   BeachReport({
+    this.imagePath,
     required this.beachId,
     required this.beachName,
     required this.sargassesLevel,
@@ -22,6 +24,7 @@ class BeachReport {
   });
 
   Map<String, dynamic> toJson() => {
+        'imagePath': imagePath,
         'beachId': beachId,
         'beachName': beachName,
         'sargassesLevel': sargassesLevel,
@@ -34,6 +37,7 @@ class BeachReport {
       };
 
   factory BeachReport.fromJson(Map<String, dynamic> json) => BeachReport(
+        imagePath: json['imagePath'],
         beachId: json['beachId'],
         beachName: json['beachName'],
         sargassesLevel: json['sargassesLevel'],

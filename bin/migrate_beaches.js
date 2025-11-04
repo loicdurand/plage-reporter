@@ -17,6 +17,7 @@ async function migrateReports() {
     for (const doc of snapshot.docs) {
       const data = doc.data();
       await reports.doc(doc.id).update({
+        imagePath: 'placeholder_beach.jpg',
         sargassesLevel: data.hasSargasses === true ? 2 : 0,
         wavesLevel: data.hasWaves === true ? 2 : 0,
         crowdLevel: data.isCrowded === true ? 2 : 0,

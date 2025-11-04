@@ -4,6 +4,7 @@ import '../widgets/beach_card.dart';
 import '../services/firestore_service.dart';
 import 'report_screen.dart';
 import 'settings_screen.dart';
+import '../models/beach_report.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,12 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool filterLowNoise = false;
 
   // === BOUTON FILTRE ===
-  Widget _buildFilterButton(String label, bool isActive, VoidCallback onTap) {
+  Widget _buildFilterButton(
+      String label, bool isActive, VoidCallback onTap, IconData icon) {
     final colorScheme = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
           color: isActive ? colorScheme.primary : colorScheme.surfaceVariant,
@@ -37,12 +39,23 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 1.5,
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isActive ? colorScheme.onPrimary : colorScheme.onSurface,
-            fontWeight: FontWeight.w600,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon,
+                size: 16,
+                color:
+                    isActive ? colorScheme.onPrimary : colorScheme.onSurface),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive ? colorScheme.onPrimary : colorScheme.onSurface,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -89,16 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   _buildFilterButton('Sans sargasses', filterNoSargasses, () {
                     setState(() => filterNoSargasses = !filterNoSargasses);
-                  }),
+                  }, Icons.eco),
                   _buildFilterButton('Peu de vagues', filterLowWaves, () {
                     setState(() => filterLowWaves = !filterLowWaves);
-                  }),
+                  }, Icons.waves),
                   _buildFilterButton('Peu de monde', filterLowCrowd, () {
                     setState(() => filterLowCrowd = !filterLowCrowd);
-                  }),
+                  }, Icons.people_outline),
                   _buildFilterButton('Calme', filterLowNoise, () {
                     setState(() => filterLowNoise = !filterLowNoise);
-                  }),
+                  }, Icons.volume_off),
                 ],
               ),
             ),
@@ -115,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 final popularity = snapshot.data ?? {};
                 final sortedBeaches = popularity.keys.toList()
-                  ..sort((a, b) => (popularity[b] ?? 0).compareTo(popularity[a] ?? 0));
+                  ..sort((a, b) =>
+                      (popularity[b] ?? 0).compareTo(popularity[a] ?? 0));
 
                 if (sortedBeaches.isEmpty) {
                   return const Center(child: Text('Aucune plage enregistrée.'));
@@ -125,20 +139,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: sortedBeaches.length,
                   itemBuilder: (context, index) {
                     final beachName = sortedBeaches[index];
-                    final beachId = beachName.toLowerCase().replaceAll(' ', '-');
+                    final beachId =
+                        beachName.toLowerCase().replaceAll(' ', '-');
 
-                    return BeachCard(
-                      beachName: beachName,
-                      beachId: beachId,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ReportScreen(beachName: beachName)),
-                      ),
-                      // === ON PASSE LES FILTRES ===
-                      filterNoSargasses: filterNoSargasses,
-                      filterLowWaves: filterLowWaves,
-                      filterLowCrowd: filterLowCrowd,
-                      filterLowNoise: filterLowNoise,
+                    // === NOUVEAU : RÉCUPÉRER LE DERNIER REPORT (pour imagePath) ===
+                    return StreamBuilder<List<BeachReport>>(
+                      stream: firestore.getReports(beachId),
+                      builder: (context, reportSnapshot) {
+                        String? imagePath;
+                        if (reportSnapshot.hasData &&
+                            reportSnapshot.data!.isNotEmpty) {
+                          final latestReport = reportSnapshot.data!.first;
+                          imagePath = latestReport.imagePath;
+                        }
+
+                        return BeachCard(
+                          beachName: beachName,
+                          beachId: beachId,
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    ReportScreen(beachName: beachName)),
+                          ),
+                          // === ON PASSE LES FILTRES + imagePath ===
+                          filterNoSargasses: filterNoSargasses,
+                          filterLowWaves: filterLowWaves,
+                          filterLowCrowd: filterLowCrowd,
+                          filterLowNoise: filterLowNoise,
+                          imagePath: imagePath, // ← ICI
+                        );
+                      },
                     );
                   },
                 );

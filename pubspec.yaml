@@ -13,6 +13,7 @@ dependencies:
   firebase_auth: ^5.3.1
   cupertino_icons: ^1.0.8
   provider: ^6.1.1
+  flutter_native_splash: ^2.4.1
 
   # CORE
   firebase_core: ^3.15.2
@@ -28,6 +29,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/logo.png
+    - assets/splash_icon.png
+    - assets/app_icon.png
     - assets/images/beach.jpg
     - assets/images/placeholder_beach.jpg
     - assets/images/plage-de-cluny.jpg

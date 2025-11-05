@@ -62,6 +62,7 @@ class _BeachCardState extends State<BeachCard> {
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
@@ -86,7 +87,7 @@ class _BeachCardState extends State<BeachCard> {
                   borderRadius: BorderRadius.circular(12),
                   child: widget.imagePath != null
                       ? Image.asset(
-                          'assets/images/${widget.imagePath!}',
+                          'assets/images/ste-anne-plage-du-bourg-min.jpg',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return const Center(
@@ -96,7 +97,8 @@ class _BeachCardState extends State<BeachCard> {
                           },
                         )
                       : const Center(
-                          child: Icon(Icons.photo, color: Colors.grey, size: 32),
+                          child:
+                              Icon(Icons.photo, color: Colors.grey, size: 32),
                         ),
                 ),
               ),
@@ -161,11 +163,13 @@ class _BeachCardState extends State<BeachCard> {
                               const SizedBox(height: 6),
                               Row(
                                 children: [
-                                  _getLevelIcon(report.sargassesLevel, Icons.eco),
+                                  _getLevelIcon(
+                                      report.sargassesLevel, Icons.eco),
                                   const SizedBox(width: 8),
                                   _getLevelIcon(report.wavesLevel, Icons.waves),
                                   const SizedBox(width: 8),
-                                  _getLevelIcon(report.crowdLevel, Icons.people),
+                                  _getLevelIcon(
+                                      report.crowdLevel, Icons.people),
                                   const SizedBox(width: 8),
                                   _getLevelIcon(
                                       report.noiseLevel, Icons.volume_up),
@@ -205,7 +209,8 @@ class _BeachCardState extends State<BeachCard> {
                                           "• Note : ${report.rating} étoiles\n"
                                           "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
 
-                                      final url = 'https://wa.me/?text=$message';
+                                      final url =
+                                          'https://wa.me/?text=$message';
                                       launchUrl(Uri.parse(url));
                                     },
                                     child: const Icon(Icons.share,

@@ -10,11 +10,11 @@ const db = admin.firestore();
 const reports = db.collection('reports');
 
 const values = {
-  sargassesLevel: 0,
-  wavesLevel: 0,
-  crowdLevel: 0,
-  noiseLevel: 0,
-  "rating": 0,
+  sargassesLevel: 2,
+  wavesLevel: 2,
+  crowdLevel: 2,
+  noiseLevel: 2,
+  "rating": 1,
   "timestamp": (new Date()).toLocaleString(),
 };
 
@@ -22,116 +22,118 @@ const beaches = [
   // {
   //   "beachId": "anse-bertrand-plage-de-la-chapelle",
   //   "beachName": "Anse-Bertrand - Plage de la Chapelle",
-  //   "imagePath": "anse-bertrand-plage-de-la-chapelle-min.jpg",
   //   "comment": "Une très jolie plage, avec parfois quelques vagues. Le point fort est l'aire de jeu sur place et la facilité à trouver de l'ombre!",
   //   ...values
   // },
   {
-    "beachId": "bouillante-plage-de-malendure",
+    "beachId": "Bouillante---Plage-de-Malendure",
     "beachName": "Bouillante - Plage de Malendure",
-    "imagePath": "bouillante-plage-de-malendure-min.jpg",
     "comment": "Une jolie plage de sable brun, où l'on voit facilement des tortues marines. Prenez masque et tuba et appréciez.",
     ...values
   },
   {
-    "beachId": "deshaies-plage-de-grande-anse",
+    "beachId": "Deshaies---Plage-de-la-Grande-Anse",
     "beachName": "Deshaies - Plage de la Grande Anse",
-    "imagePath": "deshaies-plage-de-grande-anse-min.jpg",
     "comment": "L'une des plus belles plages de l'île. Les vagues peuvent être fortes, mais la vue est incroyable!",
     ...values
   },
   {
-    "beachId": "deshaies-plage-de-la-perle",
+    "beachId": "Deshaies---Plage-de-la-Perle",
     "beachName": "Deshaies - Plage de la Perle",
-    "imagePath": "deshaies-plage-de-grande-anse-min.jpg",
+    "imagePat": "deshaies-plage-de-grande-anse-min.jpg",
     "comment": "Cette plage est sublime! Il peut certes y avoir pas mal de vagues, mais ne quittez pas la Guadeloupe sans y être passés.",
     ...values
   },
   {
-    "beachId": "gosier-plage-de-la-datcha",
+    "beachId": "Le-Gosier---Plage-de-la-Datcha",
     "beachName": "Le Gosier - Plage de la Datcha",
-    "imagePath": "gosier-plage-de-la-datcha-min.jpg",
     "comment": "Vue magnifique sur l'îlet, juste en face. Ambiance festive (comprenez: bruyante), mais le sable est doux et il n'y a pas de vagues.",
     ...values
   },
   {
-    "beachId": "gosier-plage-ilet-du-gosier",
+    "beachId": "Le-Gosier---Îlet-du-Gosier",
     "beachName": "Le Gosier - Îlet du Gosier",
-    "imagePath": "gosier-plage-ilet-du-gosier-min.jpg",
     "comment": "Quel endroit fantastique! Pas de vague, eaux turquoises et sable fin et... Le côté Robinson Crusoé en plus!",
     ...values
   },
   {
-    "beachId": "la-desirade-plage",
+    "beachId": "La-désirade---Plage-à-Fifi",
     "beachName": "La désirade - Plage à Fifi",
-    "imagePath": "la-desirade-plage-min.jpg",
     "comment": "La Désirade, si vous la visitez en dehors de la saison des sargasses, c'est quelque chose!",
     ...values
   },
   {
-    "beachId": "le-moule-plage",
+    "beachId": "Le-Moule---Plage-de-l'autre-bord",
     "beachName": "Le Moule - Plage de l'autre bord",
-    "imagePath": "le-moule-plage-min.jpg",
     "comment": "Jolie vue, sable doux. Quelques vagues, qui secouent mais amusent beaucoup les enfants!",
     ...values
   },
   {
-    "beachId": "les-saintes-plage",
+    "beachId": "Les-Saintes---Plage-du-pain-de-sucre",
     "beachName": "Les Saintes - Plage du pain de sucre",
-    "imagePath": "les-saintes-plage-min.jpg",
     "comment": "Le paradis, tout simplement! À voir absolument.",
     ...values
   },
   {
-    "beachId": "marie-galante-plage",
+    "beachId": "Marie-Galante---Plage-de-la-Feuillère",
     "beachName": "Marie-Galante - Plage de la Feuillère",
-    "imagePath": "marie-galante-plage-min.jpg",
     "comment": "Si vous vous demandez pourquoi tout le monde parle de Marie-Galante!",
     ...values
   },
   {
-    "beachId": "port-louis-plage-du-souffleur",
+    "beachId": "Port-Louis---Plage-du-Souffleur",
     "beachName": "Port-Louis - Plage du Souffleur",
-    "imagePath": "port-louis-plage-du-souffleur-min.jpg",
     "comment": "Très belle plage. Magnifique, même! L'eau est souvent calme et d'une clarté hallucinante!",
     ...values
   },
   {
-    "beachId": "plage-caravelle",
-    "beachName": "Plage de la Caravelle",
-    "imagePath": "ste-anne-plage-de-la-caravelle",
+    "beachId": "Ste-Anne---Plage-de-la-Caravelle",
+    "beachName": "Ste-Anne - Plage de la Caravelle",
     "comment": "La carte postale par excellence: mer calme, eau limpide, sable blanc et cocotiers. Evidemment, beaucoup de monde sur place!",
     ...values
   },
   {
-    "beachId": "ste-anne-plage-du-bourg",
+    "beachId": "Ste-Anne---Plage-du-Bourg",
     "beachName": "Ste-Anne - Plage du Bourg",
-    "imagePath": "ste-anne-plage-du-bourg-min.jpg",
     "comment": "Très appréciée pour son absence de vagues, la blancheur de son sable et les commerces tout proches. Beaucoup de monde en général.",
     ...values
   },
   {
-    "beachId": "ste-rose-plage-de-cluny",
+    "beachId": "Ste-Rose---Plage-de-Cluny",
     "beachName": "Ste-Rose - Plage de Cluny",
-    "imagePath": "ste-rose-plage-de-cluny-min.jpg",
     "comment": "Très agréable, pour son sable, pour la vue et pour son authenticité. Peut-être parfois bruyante, mais l'une de nos préférées malgré tout!",
     ...values
   },
   {
-    "beachId": "st-françois-plage",
+    "beachId": "St-François---Plage-des-raisins-clairs",
     "beachName": "St-François - Plage des raisins clairs",
-    "imagePath": "st-françois-plage-min.jpg",
     "comment": "St-François, ça vaut le détour! Ne serait-ce pour tout ce que l'on peut faire sur place.",
     ...values
   }
 
 ];
 
+async function deleteReports() {
+  try {
+    const snapshot = await reports.get();
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+      await reports.doc(doc.id).delete();
+      console.log(`Supprimé : ${data.beachName}`);
+    }
+    console.log('Phase de suppression terminée.');
+  } catch (error) {
+    console.error('Erreur :', error);
+  }
+}
+
 async function insertBeaches() {
   try {
     for (const beach of beaches) {
+      beach.beachId = beach.beachName.trim().toLowerCase().replaceAll(' ', '-');
+      beach.imagePath = `${beach.beachId}-min.jpg`;
       await reports.add(beach);
-      console.log(`Inséré : ${beach.beachName}`);
+      console.log(`Inséré : ${beach.beachId}`);
     }
     console.log('Migration terminée !');
   } catch (error) {
@@ -139,7 +141,11 @@ async function insertBeaches() {
   }
 }
 
-insertBeaches().then(() => {
-  console.log('Tous les inserts terminés.');
-  process.exit(0);
+deleteReports().then(() => {
+
+  insertBeaches().then(() => {
+    console.log('Tous les inserts terminés.');
+    process.exit(0);
+  });
+
 });

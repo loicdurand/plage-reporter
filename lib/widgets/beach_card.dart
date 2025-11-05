@@ -62,7 +62,6 @@ class _BeachCardState extends State<BeachCard> {
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
@@ -85,21 +84,16 @@ class _BeachCardState extends State<BeachCard> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: widget.imagePath != null
-                      ? Image.asset(
-                          'assets/images/ste-anne-plage-du-bourg-min.jpg',
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                              child: Icon(Icons.broken_image,
-                                  color: Colors.grey, size: 32),
-                            );
-                          },
-                        )
-                      : const Center(
-                          child:
-                              Icon(Icons.photo, color: Colors.grey, size: 32),
-                        ),
+                  child: Image.asset(
+                    'assets/images/${widget.beachId}-min.jpg',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(Icons.broken_image,
+                            color: Colors.grey, size: 32),
+                      );
+                    },
+                  ),
                 ),
               ),
 

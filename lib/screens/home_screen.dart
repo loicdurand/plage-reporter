@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final beachName = sortedBeaches[index];
                     final beachId =
-                        beachName.toLowerCase().replaceAll(' ', '-');
+                        beachName.trim().toLowerCase().replaceAll(' ', '-');
 
                     // === NOUVEAU : RÉCUPÉRER LE DERNIER REPORT (pour imagePath) ===
                     return StreamBuilder<List<BeachReport>>(
@@ -151,9 +151,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             reportSnapshot.data!.isNotEmpty) {
                           final latestReport = reportSnapshot.data!.first;
                           imagePath = latestReport.imagePath;
+                        } else {
+                          imagePath = '${beachId}-min.jpg';
                         }
 
                         return BeachCard(
+                          imagePath: imagePath,
                           beachName: beachName,
                           beachId: beachId,
                           onTap: () => Navigator.push(
@@ -162,12 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (_) =>
                                     ReportScreen(beachName: beachName)),
                           ),
-                          // === ON PASSE LES FILTRES + imagePath ===
                           filterNoSargasses: filterNoSargasses,
                           filterLowWaves: filterLowWaves,
                           filterLowCrowd: filterLowCrowd,
                           filterLowNoise: filterLowNoise,
-                          imagePath: imagePath, // ← ICI
                         );
                       },
                     );

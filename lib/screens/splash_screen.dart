@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.blue, // fallback si image absente
           image: DecorationImage(
-            image: const AssetImage('assets/images/beach.jpg'),
+            image: const AssetImage('assets/beach.jpg'),
             fit: BoxFit.cover,
             onError: (exception, stackTrace) =>
                 debugPrint("Image failed"),

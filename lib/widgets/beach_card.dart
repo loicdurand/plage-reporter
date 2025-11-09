@@ -49,13 +49,14 @@ class _BeachCardState extends State<BeachCard> {
       Colors.orange,
       Colors.red
     ];
-    final labels = ['', 'Peu', 'Moyen', 'Élevé'];
+    final labels = ['', 'Peu', 'Moy', 'Élevé'];  // ← Labels raccourcis pour place
     return Row(
+      mainAxisSize: MainAxisSize.min,  // ← Min space
       children: [
-        Icon(icon, color: colors[level], size: 20),
-        const SizedBox(width: 4),
+        Icon(icon, color: colors[level], size: 18),  // ← Size réduit
+        const SizedBox(width: 2),  // ← Espace réduit
         Text(labels[level],
-            style: TextStyle(fontSize: 12, color: colors[level])),
+            style: TextStyle(fontSize: 10, color: colors[level])),  // ← FontSize 10
       ],
     );
   }
@@ -68,7 +69,7 @@ class _BeachCardState extends State<BeachCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: widget.onTap, // CLIC SUR TOUTE LA CARTE
+        onTap: widget.onTap,  // ← CLIC SUR TOUTE LA CARTE
         borderRadius: BorderRadius.circular(12),
         child: IntrinsicHeight(
           child: Row(
@@ -86,12 +87,11 @@ class _BeachCardState extends State<BeachCard> {
                   borderRadius: BorderRadius.circular(12),
                   child: widget.imagePath != null
                       ? Image.asset(
-                          'assets/images/${widget.imagePath!}',
+                          'assets/images/beaches/${widget.imagePath!}',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return const Center(
-                              child: Icon(Icons.broken_image,
-                                  color: Colors.grey, size: 32),
+                              child: Icon(Icons.broken_image, color: Colors.grey, size: 32),
                             );
                           },
                         )
@@ -104,10 +104,10 @@ class _BeachCardState extends State<BeachCard> {
               // === CONTENU À DROITE ===
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       // Titre
                       Text(
@@ -121,114 +121,117 @@ class _BeachCardState extends State<BeachCard> {
                       const SizedBox(height: 4),
 
                       // Rapport
-                      StreamBuilder<List<BeachReport>>(
-                        stream: firestore.getReports(widget.beachId),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            _cachedReports = snapshot.data!;
-                          }
-                          final reports = _cachedReports ?? [];
-                          if (reports.isEmpty) {
-                            return const Text("Aucun avis",
-                                style: TextStyle(fontSize: 13));
-                          }
-                          final report = reports.first;
+                      Flexible(  // ← Flexible pour s'adapter
+                        child: StreamBuilder<List<BeachReport>>(
+                          stream: firestore.getReports(widget.beachId),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              _cachedReports = snapshot.data!;
+                            }
+                            final reports = _cachedReports ?? [];
+                            if (reports.isEmpty) {
+                              return const Text("Aucun avis",
+                                  style: TextStyle(fontSize: 13));
+                            }
+                            final report = reports.first;
 
-                          // === FILTRES ===
-                          if (widget.filterNoSargasses &&
-                              report.sargassesLevel != 0) {
-                            return const SizedBox.shrink();
-                          }
-                          if (widget.filterLowWaves && report.wavesLevel > 1) {
-                            return const SizedBox.shrink();
-                          }
-                          if (widget.filterLowCrowd && report.crowdLevel > 1) {
-                            return const SizedBox.shrink();
-                          }
-                          if (widget.filterLowNoise && report.noiseLevel > 1) {
-                            return const SizedBox.shrink();
-                          }
-                          // === FIN FILTRES ===
+                            // === FILTRES ===
+                            if (widget.filterNoSargasses &&
+                                report.sargassesLevel != 0) {
+                              return const SizedBox.shrink();
+                            }
+                            if (widget.filterLowWaves && report.wavesLevel > 1) {
+                              return const SizedBox.shrink();
+                            }
+                            if (widget.filterLowCrowd && report.crowdLevel > 1) {
+                              return const SizedBox.shrink();
+                            }
+                            if (widget.filterLowNoise && report.noiseLevel > 1) {
+                              return const SizedBox.shrink();
+                            }
+                            // === FIN FILTRES ===
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _timeAgo(report.timestamp),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[600]),
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  _getLevelIcon(report.sargassesLevel, Icons.eco),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(report.wavesLevel, Icons.waves),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(report.crowdLevel, Icons.people),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(
-                                      report.noiseLevel, Icons.volume_up),
-                                ],
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  ...List.generate(
-                                      5,
-                                      (i) => Icon(
-                                            i < report.rating
-                                                ? Icons.star
-                                                : Icons.star_border,
-                                            color: Colors.amber,
-                                            size: 16,
-                                          )),
-                                  const SizedBox(width: 6),
-                                  Text("${reports.length} avis",
-                                      style: const TextStyle(fontSize: 12)),
-                                  const Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      final levelText = (level) => [
-                                            'Aucun',
-                                            'Peu gênant',
-                                            'Gênant',
-                                            'Impraticable'
-                                          ][level];
-
-                                      final message = Uri.encodeComponent(
-                                          "Plage ${report.beachName} :\n"
-                                          "• Sargasses : ${levelText(report.sargassesLevel)}\n"
-                                          "• Vagues : ${levelText(report.wavesLevel)}\n"
-                                          "• Foule : ${levelText(report.crowdLevel)}\n"
-                                          "• Bruit : ${levelText(report.noiseLevel)}\n"
-                                          "• Note : ${report.rating} étoiles\n"
-                                          "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
-
-                                      final url = 'https://wa.me/?text=$message';
-                                      launchUrl(Uri.parse(url));
-                                    },
-                                    child: const Icon(Icons.share,
-                                        size: 20, color: Colors.green),
-                                  ),
-                                ],
-                              ),
-                              if (report.comment != null) ...[
-                                const SizedBox(height: 4),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  '"${report.comment}"',
+                                  _timeAgo(report.timestamp),
                                   style: TextStyle(
-                                    fontSize: 11,
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.grey[700],
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                      fontSize: 12, color: Colors.grey[600]),
                                 ),
+                                const SizedBox(height: 4),
+                                // Row des icônes — FIXÉE
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,  // ← FIX : Min space
+                                  children: [
+                                    _getLevelIcon(report.sargassesLevel, Icons.eco),
+                                    const SizedBox(width: 4),  // ← Espace réduit
+                                    _getLevelIcon(report.wavesLevel, Icons.waves),
+                                    const SizedBox(width: 4),
+                                    _getLevelIcon(report.crowdLevel, Icons.people),
+                                    const SizedBox(width: 4),
+                                    _getLevelIcon(report.noiseLevel, Icons.volume_up),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    ...List.generate(
+                                        5,
+                                        (i) => Icon(
+                                              i < report.rating
+                                                  ? Icons.star
+                                                  : Icons.star_border,
+                                              color: Colors.amber,
+                                              size: 16,
+                                            )),
+                                    const SizedBox(width: 6),
+                                    Text("${reports.length} avis",
+                                        style: const TextStyle(fontSize: 12)),
+                                    const Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        final levelText = (level) => [
+                                              'Aucun',
+                                              'Peu gênant',
+                                              'Gênant',
+                                              'Impraticable'
+                                            ][level];
+
+                                        final message = Uri.encodeComponent(
+                                            "Plage ${report.beachName} :\n"
+                                            "• Sargasses : ${levelText(report.sargassesLevel)}\n"
+                                            "• Vagues : ${levelText(report.wavesLevel)}\n"
+                                            "• Foule : ${levelText(report.crowdLevel)}\n"
+                                            "• Bruit : ${levelText(report.noiseLevel)}\n"
+                                            "• Note : ${report.rating} étoiles\n"
+                                            "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
+
+                                        final url = 'https://wa.me/?text=$message';
+                                        launchUrl(Uri.parse(url));
+                                      },
+                                      child: const Icon(Icons.share,
+                                          size: 20, color: Colors.green),
+                                    ),
+                                  ],
+                                ),
+                                if (report.comment != null) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '"${report.comment}"',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.grey[700],
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ],
-                            ],
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -238,8 +241,7 @@ class _BeachCardState extends State<BeachCard> {
               // === FLÈCHE À DROITE ===
               const Padding(
                 padding: EdgeInsets.only(right: 8),
-                child:
-                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                child: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
               ),
             ],
           ),

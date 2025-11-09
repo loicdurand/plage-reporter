@@ -32,9 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: isActive
-              ? colorScheme.primary
-              : colorScheme.surfaceContainerHighest,
+          color: isActive ? colorScheme.primary : colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive ? colorScheme.primary : colorScheme.outline,
@@ -143,17 +141,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     final beachName = sortedBeaches[index];
                     final beachId =
                         beachName.toLowerCase().replaceAll(' ', '-');
+
                     // === NOUVEAU : RÉCUPÉRER LE DERNIER REPORT (pour imagePath) ===
-                    return FutureBuilder<List<BeachReport>>(
-                      future:
-                          firestore.getReportsSync(beachId), // ← Future sync
-                      builder: (context, snapshot) {
+                    return StreamBuilder<List<BeachReport>>(
+                      stream: firestore.getReports(beachId),
+                      builder: (context, reportSnapshot) {
                         String? imagePath;
-                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                          imagePath = snapshot.data!.first.imagePath;
+                        if (reportSnapshot.hasData &&
+                            reportSnapshot.data!.isNotEmpty) {
+                          final latestReport = reportSnapshot.data!.first;
+                          imagePath = latestReport.imagePath;
                         }
                         return BeachCard(
-                          imagePath: imagePath,
                           beachName: beachName,
                           beachId: beachId,
                           onTap: () => Navigator.push(
@@ -162,10 +161,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (_) =>
                                     ReportScreen(beachName: beachName)),
                           ),
+                          // === ON PASSE LES FILTRES + imagePath ===
                           filterNoSargasses: filterNoSargasses,
                           filterLowWaves: filterLowWaves,
                           filterLowCrowd: filterLowCrowd,
                           filterLowNoise: filterLowNoise,
+                          imagePath: imagePath, // ← ICI
                         );
                       },
                     );

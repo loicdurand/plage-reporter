@@ -215,7 +215,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
-                  value: selectedBeach,
+                  initialValue: selectedBeach,
                   items: snapshot.data
                       ?.map((n) => DropdownMenuItem(value: n, child: Text(n)))
                       .toList(),

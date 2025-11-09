@@ -17,16 +17,14 @@ async function migrateReports() {
     for (const doc of snapshot.docs) {
       const data = doc.data();
       await reports.doc(doc.id).update({
-        imagePath: 'placeholder_beach.jpg',
-        sargassesLevel: data.hasSargasses === true ? 2 : 0,
-        wavesLevel: data.hasWaves === true ? 2 : 0,
-        crowdLevel: data.isCrowded === true ? 2 : 0,
-        noiseLevel: data.isNoisy === true ? 2 : 0,
-        // Supprime les anciens champs
-        hasSargasses: admin.firestore.FieldValue.delete(),
-        hasWaves: admin.firestore.FieldValue.delete(),
-        isCrowded: admin.firestore.FieldValue.delete(),
-        isNoisy: admin.firestore.FieldValue.delete(),
+        beachId: data.beachId,
+        beachName: data.beachName,
+        comment: data.comment,
+        sargassesLevel: 2,
+        wavesLevel: 2,
+        crowdLevel: 2,
+        noiseLevel: 2,
+        rating: 1,
       });
       console.log(`Migré : ${data.beachName}`);
     }

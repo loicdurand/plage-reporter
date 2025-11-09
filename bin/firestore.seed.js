@@ -15,7 +15,6 @@ const values = {
   crowdLevel: 2,
   noiseLevel: 2,
   "rating": 1,
-  "timestamp": (new Date()).toLocaleString(),
 };
 
 const beaches = [
@@ -130,10 +129,8 @@ async function deleteReports() {
 async function insertBeaches() {
   try {
     for (const beach of beaches) {
-      beach.beachId = beach.beachName.trim().toLowerCase().replaceAll(' ', '-');
-      beach.imagePath = `${beach.beachId}-min.jpg`;
       await reports.add(beach);
-      console.log(`Inséré : ${beach.beachId}`);
+      console.log(`Inséré : ${beach.beachName} (beachId: ${beach.beachId})`);
     }
     console.log('Migration terminée !');
   } catch (error) {
@@ -141,11 +138,11 @@ async function insertBeaches() {
   }
 }
 
-deleteReports().then(() => {
+insertBeaches().then(() => process.exit(0));
 
-  insertBeaches().then(() => {
-    console.log('Tous les inserts terminés.');
-    process.exit(0);
-  });
+deleteReports().then(() => {
+  // process.exit(0);
+  insertBeaches().then(() => process.exit(0));
+
 
 });

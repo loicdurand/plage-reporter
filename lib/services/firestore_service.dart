@@ -21,6 +21,15 @@ class FirestoreService {
             .toList());
   }
 
+  Future<List<BeachReport>> getReportsSync(String beachId) async {
+  final snapshot = await reports
+      .where('beachId', isEqualTo: beachId)
+      .orderBy('timestamp', descending: true)
+      .limit(1)
+      .get();
+  return snapshot.docs.map((doc) => BeachReport.fromJson(doc.data() as Map<String, dynamic>)).toList();
+}
+
   Stream<List<String>> getBeachNames() {
     return reports.snapshots().map((snapshot) => snapshot.docs
         .map((doc) => doc['beachName'] as String)

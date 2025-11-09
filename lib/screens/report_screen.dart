@@ -57,7 +57,7 @@ class _ReportScreenState extends State<ReportScreen> {
           color: Theme.of(context).cardColor, // ← Fond dynamique
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha:0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -93,7 +93,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     border: Border.all(
                       color: index < currentLevel
                           ? Colors.orange.shade600
-                          : Theme.of(context).colorScheme.outline.withValues(alpha:0.2), // ← Bordure visible toujours
+                          : Theme.of(context).colorScheme.outline.withValues(
+                              alpha: 0.2), // ← Bordure visible toujours
                       width: 1.5, // ← Bordure plus épaisse pour distinction
                     ),
                     borderRadius: BorderRadius.circular(4),
@@ -322,8 +323,12 @@ class _ReportScreenState extends State<ReportScreen> {
                     _showEmptyReportDialog();
                   } else {
                     firestore.addReport(BeachReport(
-                      beachId:
-                          selectedBeach!.toLowerCase().replaceAll(' ', '-'),
+                      beachId: selectedBeach!
+                          .toLowerCase()
+                          .trim()
+                          .replaceAll(RegExp(r'\s+'),
+                              '-') // ← Remplace 1+ espaces par UN '-'
+                          .replaceAll(RegExp(r'-+'), '-'),
                       beachName: selectedBeach!,
                       sargassesLevel: sargassesLevel,
                       wavesLevel: wavesLevel,

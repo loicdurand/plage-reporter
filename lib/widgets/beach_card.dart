@@ -49,27 +49,34 @@ class _BeachCardState extends State<BeachCard> {
       Colors.orange,
       Colors.red
     ];
-    final labels = ['', 'Peu', 'Moy', 'Élevé'];  // ← Labels raccourcis pour place
+    final labels = [
+      '',
+      'Peu',
+      'Moy',
+      'Élevé'
+    ]; // ← Labels raccourcis pour place
     return Row(
-      mainAxisSize: MainAxisSize.min,  // ← Min space
+      mainAxisSize: MainAxisSize.min, // ← Min space
       children: [
-        Icon(icon, color: colors[level], size: 18),  // ← Size réduit
-        const SizedBox(width: 2),  // ← Espace réduit
+        Icon(icon, color: colors[level], size: 18), // ← Size réduit
+        const SizedBox(width: 2), // ← Espace réduit
         Text(labels[level],
-            style: TextStyle(fontSize: 10, color: colors[level])),  // ← FontSize 10
+            style:
+                TextStyle(fontSize: 10, color: colors[level])), // ← FontSize 10
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final imagePath = widget.beachId.replaceAll(RegExp(r'-+'), '-');
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: widget.onTap,  // ← CLIC SUR TOUTE LA CARTE
+        onTap: widget.onTap, // ← CLIC SUR TOUTE LA CARTE
         borderRadius: BorderRadius.circular(12),
         child: IntrinsicHeight(
           child: Row(
@@ -84,27 +91,24 @@ class _BeachCardState extends State<BeachCard> {
                   color: Colors.grey.shade200,
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: widget.imagePath != null
-                      ? Image.asset(
-                          'assets/images/beaches/${widget.imagePath!}',
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                              child: Icon(Icons.broken_image, color: Colors.grey, size: 32),
-                            );
-                          },
-                        )
-                      : const Center(
-                          child: Icon(Icons.photo, color: Colors.grey, size: 32),
-                        ),
-                ),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      'assets/images/${imagePath}-min.jpg',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(Icons.broken_image,
+                              color: Colors.grey, size: 32),
+                        );
+                      },
+                    )),
               ),
 
               // === CONTENU À DROITE ===
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -121,7 +125,8 @@ class _BeachCardState extends State<BeachCard> {
                       const SizedBox(height: 4),
 
                       // Rapport
-                      Flexible(  // ← Flexible pour s'adapter
+                      Flexible(
+                        // ← Flexible pour s'adapter
                         child: StreamBuilder<List<BeachReport>>(
                           stream: firestore.getReports(widget.beachId),
                           builder: (context, snapshot) {
@@ -140,13 +145,16 @@ class _BeachCardState extends State<BeachCard> {
                                 report.sargassesLevel != 0) {
                               return const SizedBox.shrink();
                             }
-                            if (widget.filterLowWaves && report.wavesLevel > 1) {
+                            if (widget.filterLowWaves &&
+                                report.wavesLevel > 1) {
                               return const SizedBox.shrink();
                             }
-                            if (widget.filterLowCrowd && report.crowdLevel > 1) {
+                            if (widget.filterLowCrowd &&
+                                report.crowdLevel > 1) {
                               return const SizedBox.shrink();
                             }
-                            if (widget.filterLowNoise && report.noiseLevel > 1) {
+                            if (widget.filterLowNoise &&
+                                report.noiseLevel > 1) {
                               return const SizedBox.shrink();
                             }
                             // === FIN FILTRES ===
@@ -162,15 +170,20 @@ class _BeachCardState extends State<BeachCard> {
                                 const SizedBox(height: 4),
                                 // Row des icônes — FIXÉE
                                 Row(
-                                  mainAxisSize: MainAxisSize.min,  // ← FIX : Min space
+                                  mainAxisSize:
+                                      MainAxisSize.min, // ← FIX : Min space
                                   children: [
-                                    _getLevelIcon(report.sargassesLevel, Icons.eco),
-                                    const SizedBox(width: 4),  // ← Espace réduit
-                                    _getLevelIcon(report.wavesLevel, Icons.waves),
+                                    _getLevelIcon(
+                                        report.sargassesLevel, Icons.eco),
+                                    const SizedBox(width: 4), // ← Espace réduit
+                                    _getLevelIcon(
+                                        report.wavesLevel, Icons.waves),
                                     const SizedBox(width: 4),
-                                    _getLevelIcon(report.crowdLevel, Icons.people),
+                                    _getLevelIcon(
+                                        report.crowdLevel, Icons.people),
                                     const SizedBox(width: 4),
-                                    _getLevelIcon(report.noiseLevel, Icons.volume_up),
+                                    _getLevelIcon(
+                                        report.noiseLevel, Icons.volume_up),
                                   ],
                                 ),
                                 const SizedBox(height: 4),
@@ -207,7 +220,8 @@ class _BeachCardState extends State<BeachCard> {
                                             "• Note : ${report.rating} étoiles\n"
                                             "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
 
-                                        final url = 'https://wa.me/?text=$message';
+                                        final url =
+                                            'https://wa.me/?text=$message';
                                         launchUrl(Uri.parse(url));
                                       },
                                       child: const Icon(Icons.share,
@@ -241,7 +255,8 @@ class _BeachCardState extends State<BeachCard> {
               // === FLÈCHE À DROITE ===
               const Padding(
                 padding: EdgeInsets.only(right: 8),
-                child: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                child:
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
               ),
             ],
           ),

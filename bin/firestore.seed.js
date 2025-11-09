@@ -30,85 +30,85 @@ const beaches = [
     "comment": "Une jolie plage de sable brun, où l'on voit facilement des tortues marines. Prenez masque et tuba et appréciez.",
     ...values
   },
-  {
-    "beachId": "Deshaies---Plage-de-la-Grande-Anse",
-    "beachName": "Deshaies - Plage de la Grande Anse",
-    "comment": "L'une des plus belles plages de l'île. Les vagues peuvent être fortes, mais la vue est incroyable!",
-    ...values
-  },
-  {
-    "beachId": "Deshaies---Plage-de-la-Perle",
-    "beachName": "Deshaies - Plage de la Perle",
-    "imagePat": "deshaies-plage-de-grande-anse-min.jpg",
-    "comment": "Cette plage est sublime! Il peut certes y avoir pas mal de vagues, mais ne quittez pas la Guadeloupe sans y être passés.",
-    ...values
-  },
-  {
-    "beachId": "Le-Gosier---Plage-de-la-Datcha",
-    "beachName": "Le Gosier - Plage de la Datcha",
-    "comment": "Vue magnifique sur l'îlet, juste en face. Ambiance festive (comprenez: bruyante), mais le sable est doux et il n'y a pas de vagues.",
-    ...values
-  },
-  {
-    "beachId": "Le-Gosier---Îlet-du-Gosier",
-    "beachName": "Le Gosier - Îlet du Gosier",
-    "comment": "Quel endroit fantastique! Pas de vague, eaux turquoises et sable fin et... Le côté Robinson Crusoé en plus!",
-    ...values
-  },
-  {
-    "beachId": "La-désirade---Plage-à-Fifi",
-    "beachName": "La désirade - Plage à Fifi",
-    "comment": "La Désirade, si vous la visitez en dehors de la saison des sargasses, c'est quelque chose!",
-    ...values
-  },
-  {
-    "beachId": "Le-Moule---Plage-de-l'autre-bord",
-    "beachName": "Le Moule - Plage de l'autre bord",
-    "comment": "Jolie vue, sable doux. Quelques vagues, qui secouent mais amusent beaucoup les enfants!",
-    ...values
-  },
-  {
-    "beachId": "Les-Saintes---Plage-du-pain-de-sucre",
-    "beachName": "Les Saintes - Plage du pain de sucre",
-    "comment": "Le paradis, tout simplement! À voir absolument.",
-    ...values
-  },
-  {
-    "beachId": "Marie-Galante---Plage-de-la-Feuillère",
-    "beachName": "Marie-Galante - Plage de la Feuillère",
-    "comment": "Si vous vous demandez pourquoi tout le monde parle de Marie-Galante!",
-    ...values
-  },
-  {
-    "beachId": "Port-Louis---Plage-du-Souffleur",
-    "beachName": "Port-Louis - Plage du Souffleur",
-    "comment": "Très belle plage. Magnifique, même! L'eau est souvent calme et d'une clarté hallucinante!",
-    ...values
-  },
-  {
-    "beachId": "Ste-Anne---Plage-de-la-Caravelle",
-    "beachName": "Ste-Anne - Plage de la Caravelle",
-    "comment": "La carte postale par excellence: mer calme, eau limpide, sable blanc et cocotiers. Evidemment, beaucoup de monde sur place!",
-    ...values
-  },
-  {
-    "beachId": "Ste-Anne---Plage-du-Bourg",
-    "beachName": "Ste-Anne - Plage du Bourg",
-    "comment": "Très appréciée pour son absence de vagues, la blancheur de son sable et les commerces tout proches. Beaucoup de monde en général.",
-    ...values
-  },
-  {
-    "beachId": "Ste-Rose---Plage-de-Cluny",
-    "beachName": "Ste-Rose - Plage de Cluny",
-    "comment": "Très agréable, pour son sable, pour la vue et pour son authenticité. Peut-être parfois bruyante, mais l'une de nos préférées malgré tout!",
-    ...values
-  },
-  {
-    "beachId": "St-François---Plage-des-raisins-clairs",
-    "beachName": "St-François - Plage des raisins clairs",
-    "comment": "St-François, ça vaut le détour! Ne serait-ce pour tout ce que l'on peut faire sur place.",
-    ...values
-  }
+  // {
+  //   "beachId": "Deshaies---Plage-de-la-Grande-Anse",
+  //   "beachName": "Deshaies - Plage de la Grande Anse",
+  //   "comment": "L'une des plus belles plages de l'île. Les vagues peuvent être fortes, mais la vue est incroyable!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Deshaies---Plage-de-la-Perle",
+  //   "beachName": "Deshaies - Plage de la Perle",
+  //   "imagePat": "deshaies-plage-de-grande-anse-min.jpg",
+  //   "comment": "Cette plage est sublime! Il peut certes y avoir pas mal de vagues, mais ne quittez pas la Guadeloupe sans y être passés.",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Le-Gosier---Plage-de-la-Datcha",
+  //   "beachName": "Le Gosier - Plage de la Datcha",
+  //   "comment": "Vue magnifique sur l'îlet, juste en face. Ambiance festive (comprenez: bruyante), mais le sable est doux et il n'y a pas de vagues.",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Le-Gosier---Îlet-du-Gosier",
+  //   "beachName": "Le Gosier - Îlet du Gosier",
+  //   "comment": "Quel endroit fantastique! Pas de vague, eaux turquoises et sable fin et... Le côté Robinson Crusoé en plus!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "La-désirade---Plage-à-Fifi",
+  //   "beachName": "La désirade - Plage à Fifi",
+  //   "comment": "La Désirade, si vous la visitez en dehors de la saison des sargasses, c'est quelque chose!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Le-Moule---Plage-de-l'autre-bord",
+  //   "beachName": "Le Moule - Plage de l'autre bord",
+  //   "comment": "Jolie vue, sable doux. Quelques vagues, qui secouent mais amusent beaucoup les enfants!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Les-Saintes---Plage-du-pain-de-sucre",
+  //   "beachName": "Les Saintes - Plage du pain de sucre",
+  //   "comment": "Le paradis, tout simplement! À voir absolument.",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Marie-Galante---Plage-de-la-Feuillère",
+  //   "beachName": "Marie-Galante - Plage de la Feuillère",
+  //   "comment": "Si vous vous demandez pourquoi tout le monde parle de Marie-Galante!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Port-Louis---Plage-du-Souffleur",
+  //   "beachName": "Port-Louis - Plage du Souffleur",
+  //   "comment": "Très belle plage. Magnifique, même! L'eau est souvent calme et d'une clarté hallucinante!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Ste-Anne---Plage-de-la-Caravelle",
+  //   "beachName": "Ste-Anne - Plage de la Caravelle",
+  //   "comment": "La carte postale par excellence: mer calme, eau limpide, sable blanc et cocotiers. Evidemment, beaucoup de monde sur place!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Ste-Anne---Plage-du-Bourg",
+  //   "beachName": "Ste-Anne - Plage du Bourg",
+  //   "comment": "Très appréciée pour son absence de vagues, la blancheur de son sable et les commerces tout proches. Beaucoup de monde en général.",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "Ste-Rose---Plage-de-Cluny",
+  //   "beachName": "Ste-Rose - Plage de Cluny",
+  //   "comment": "Très agréable, pour son sable, pour la vue et pour son authenticité. Peut-être parfois bruyante, mais l'une de nos préférées malgré tout!",
+  //   ...values
+  // },
+  // {
+  //   "beachId": "St-François---Plage-des-raisins-clairs",
+  //   "beachName": "St-François - Plage des raisins clairs",
+  //   "comment": "St-François, ça vaut le détour! Ne serait-ce pour tout ce que l'on peut faire sur place.",
+  //   ...values
+  // }
 
 ];
 
@@ -129,6 +129,8 @@ async function deleteReports() {
 async function insertBeaches() {
   try {
     for (const beach of beaches) {
+      beach.beachId = beach.beachId.toLocaleLowerCase().replace('---', '-');
+      beach.imagePath = `${beach.beachId}-min.jpg`
       await reports.add(beach);
       console.log(`Inséré : ${beach.beachName} (beachId: ${beach.beachId})`);
     }
@@ -137,8 +139,6 @@ async function insertBeaches() {
     console.error('Erreur lors de l\'insertion :', error);
   }
 }
-
-insertBeaches().then(() => process.exit(0));
 
 deleteReports().then(() => {
   // process.exit(0);

@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           filterLowWaves: filterLowWaves,
                           filterLowCrowd: filterLowCrowd,
                           filterLowNoise: filterLowNoise,
-                          imagePath: imagePath, // ← ICI
+                          imagePath: imagePath,
                         );
                       },
                     );

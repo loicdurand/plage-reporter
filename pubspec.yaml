@@ -39,8 +39,8 @@ flutter:
     - assets/images/bouillante-plage-de-malendure-min.jpg
     - assets/images/deshaies-plage-de-la-grande-anse-min.jpg
     - assets/images/deshaies-plage-de-la-perle-min.jpg
-    - assets/images/gosier-plage-de-la-datcha-min.jpg
-    - assets/images/gosier-plage-ilet-du-gosier-min.jpg
+    - assets/images/le-gosier-plage-de-la-datcha-min.jpg
+    - assets/images/le-gosier-ilet-du-gosier-min.jpg
     - assets/images/la-desirade-plage-a-fifi-min.jpg
     - assets/images/le-moule-plage-de-l'autre-bord-min.jpg
     - assets/images/les-saintes-plage-du-pain-de-sucre-min.jpg
@@ -49,4 +49,4 @@ flutter:
     - assets/images/ste-anne-plage-de-la-caravelle-min.jpg
     - assets/images/ste-anne-plage-du-bourg-min.jpg
     - assets/images/ste-rose-plage-de-cluny-min.jpg
-    - assets/images/st-françois-plage-des-raisins-clairs-min.jpg
+    - assets/images/st-francois-plage-des-raisins-clairs-min.jpg

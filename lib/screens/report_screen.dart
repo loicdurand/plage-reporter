@@ -323,12 +323,10 @@ class _ReportScreenState extends State<ReportScreen> {
                     _showEmptyReportDialog();
                   } else {
                     firestore.addReport(BeachReport(
-                      beachId: selectedBeach!
-                          .toLowerCase()
-                          .trim()
-                          .replaceAll(RegExp(r'\s+'),
-                              '-') // ← Remplace 1+ espaces par UN '-'
-                          .replaceAll(RegExp(r'-+'), '-'),
+                      beachId: selectedBeach!.toLowerCase().trim().replaceAll(
+                          RegExp(r'\s+'),
+                          '-'), // ← Remplace 1+ espaces par UN '-'
+                      // .replaceAll(RegExp(r'-+'), '-'),
                       beachName: selectedBeach!,
                       sargassesLevel: sargassesLevel,
                       wavesLevel: wavesLevel,

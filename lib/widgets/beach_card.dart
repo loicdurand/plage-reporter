@@ -4,6 +4,24 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
 
+/// Minimal normalize implementation to support calls like `s.normalize('NFD')`.
+/// This handles common Latin diacritics used in French by mapping them to base
+/// characters; it's intentionally small to avoid adding a new dependency.
+extension StringNormalize on String {
+  String normalize(String form) {
+    if (form != 'NFD') return this;
+    const from =
+        'ÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÇçÑñÝýÿŒœ';
+    const to =
+        'AAAAAAaaaaaaEEEEeeeeIIIIiiiiOOOOOOooooooUUUUuuuuCcNnYyyOeoe';
+    var output = this;
+    for (var i = 0; i < from.length; i++) {
+      output = output.replaceAll(from[i], to[i]);
+    }
+    return output;
+  }
+}
+
 class BeachCard extends StatefulWidget {
   final String? imagePath;
   final String beachName;
@@ -69,7 +87,13 @@ class _BeachCardState extends State<BeachCard> {
 
   @override
   Widget build(BuildContext context) {
-    final imagePath = widget.beachId.replaceAll(RegExp(r'-+'), '-');
+    final imagePath = widget.beachId.normalize(
+            'NFD') // Décompose les accents en caractères de base + diacritiques
+        .replaceAll(RegExp(r'[\u0300-\u036f]', unicode: true),
+            '') // Supprime les diacritiques
+        .normalize('NFD') // Renormalise
+        .replaceAll(RegExp(r'-+'), '-');
+    print(imagePath);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,

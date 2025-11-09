@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            'Sable & Sargasses',
+            'Kantan Gwadloup!',
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,

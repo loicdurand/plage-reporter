@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sable & Sargasses')),
+      appBar: AppBar(title: const Text('Kantan Gwadloup!')),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               child: const Text(
-                'Sable & Sargasses',
+                'Kantan Gwadloup!',
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),

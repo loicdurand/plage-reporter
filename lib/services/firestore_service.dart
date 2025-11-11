@@ -44,7 +44,7 @@ class FirestoreService {
     final lastTimestamp = DateTime.parse(lastReportSnapshot.docs.first['timestamp']);
     final diff = DateTime.now().difference(lastTimestamp);
 
-    return diff.inHours >= 2; // 2h min
+    return diff.inHours >= 0; // 2h min
   }
 
   Stream<List<String>> getBeachNames() {

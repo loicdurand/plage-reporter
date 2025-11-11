@@ -32,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: isActive ? colorScheme.primary : colorScheme.surfaceContainerHighest,
+          color: isActive
+              ? colorScheme.primary
+              : colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive ? colorScheme.primary : colorScheme.outline,
@@ -174,6 +176,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 );
               },
+            ),
+          ),
+
+          //'=== Signature ==='
+          // const Spacer(), // ← Pousse en bas
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              "Dev: \u{1f60e}github.com/loicdurand - Crédits photos: T.Sato©",
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

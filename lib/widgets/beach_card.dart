@@ -93,7 +93,7 @@ class _BeachCardState extends State<BeachCard> {
             '') // Supprime les diacritiques
         .normalize('NFD') // Renormalise
         .replaceAll(RegExp(r'-+'), '-');
-    print(imagePath);
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       elevation: 3,
@@ -117,7 +117,7 @@ class _BeachCardState extends State<BeachCard> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                      'assets/images/${imagePath}-min.jpg',
+                      'assets/images/$imagePath-min.jpg',
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return const Center(
@@ -228,7 +228,7 @@ class _BeachCardState extends State<BeachCard> {
                                     const Spacer(),
                                     GestureDetector(
                                       onTap: () {
-                                        final levelText = (level) => [
+                                        String levelText(level) => [
                                               'Aucun',
                                               'Peu gênant',
                                               'Gênant',
@@ -242,7 +242,7 @@ class _BeachCardState extends State<BeachCard> {
                                             "• Foule : ${levelText(report.crowdLevel)}\n"
                                             "• Bruit : ${levelText(report.noiseLevel)}\n"
                                             "• Note : ${report.rating} étoiles\n"
-                                            "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
+                                            "${report.comment != null ? 'Quote: "${report.comment}"' : ''}");
 
                                         final url =
                                             'https://wa.me/?text=$message';

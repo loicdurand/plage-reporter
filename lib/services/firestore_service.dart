@@ -22,13 +22,30 @@ class FirestoreService {
   }
 
   Future<List<BeachReport>> getReportsSync(String beachId) async {
-  final snapshot = await reports
-      .where('beachId', isEqualTo: beachId)
-      .orderBy('timestamp', descending: true)
-      .limit(1)
-      .get();
-  return snapshot.docs.map((doc) => BeachReport.fromJson(doc.data() as Map<String, dynamic>)).toList();
-}
+    final snapshot = await reports
+        .where('beachId', isEqualTo: beachId)
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .get();
+    return snapshot.docs
+        .map((doc) => BeachReport.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<bool> canAddReport(String userId) async {
+    final lastReportSnapshot = await reports
+        .where('userId', isEqualTo: userId)
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .get();
+
+    if (lastReportSnapshot.docs.isEmpty) return true; // Premier report OK
+
+    final lastTimestamp = DateTime.parse(lastReportSnapshot.docs.first['timestamp']);
+    final diff = DateTime.now().difference(lastTimestamp);
+
+    return diff.inHours >= 2; // 2h min
+  }
 
   Stream<List<String>> getBeachNames() {
     return reports.snapshots().map((snapshot) => snapshot.docs

@@ -8,6 +8,7 @@ class BeachReport {
   final int noiseLevel; // ← 0 à 3
   final int rating;
   final String? comment;
+  final String? userId;
   final DateTime timestamp;
 
   BeachReport({
@@ -20,6 +21,7 @@ class BeachReport {
     required this.noiseLevel,
     required this.rating,
     this.comment,
+    this.userId,
     required this.timestamp,
   });
 
@@ -33,6 +35,7 @@ class BeachReport {
         'noiseLevel': noiseLevel,
         'rating': rating,
         'comment': comment,
+        'userId': userId,
         'timestamp': timestamp.toIso8601String(),
       };
 
@@ -46,6 +49,7 @@ class BeachReport {
         noiseLevel: json['noiseLevel'],
         rating: json['rating'],
         comment: json['comment'],
+        userId: json['userId'],
         timestamp: DateTime.parse(json['timestamp']),
       );
 }

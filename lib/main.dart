@@ -13,13 +13,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   
   // Sign-in anonyme + debug
-  try {
-    await FirebaseAuth.instance.signInAnonymously();
-    print('Auth anonyme OK : UID = ${FirebaseAuth.instance.currentUser?.uid}');
-  } catch (e) {
-    print('ERREUR auth anonyme : $e');
-  }
-  
+  await FirebaseAuth.instance.signInAnonymously();
   runApp(const MyApp());
 }
 

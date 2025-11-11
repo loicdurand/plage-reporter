@@ -1,16 +1,25 @@
-# sablesargasses
+# Kantan Gwadloup!
 
-A new Flutter project.
+Profite de la Guadeloupe!
 
-## Getting Started
+## Introduction
 
-This project is a starting point for a Flutter application.
+Chaque samedi, chaque dimanche, se pose la même question: quelle plage aujourd'hui?
+S'en suit toujours le meme dialogue: 
+- Anse-Bertrand?
+- Ça serait super mais s'il y a des sargasses?
+- Port-Louis?
+- Bonne idée, mais j'ai peur qu'il y ait du bruit, 
 
-A few resources to get you started if this is your first Flutter project:
+Etcetera, etcetera...
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Bref, via cette application, les premiers arrivés à la plage peuvent signaler aux autres les éventuelles gênes sur place.
+L'application se veut simple: présence de sargasses, vagues importantes, bruit ou foule sont les seules critères qui peuevnt être signalés.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Pourquoi ne pas avoir ajouté la météo? Parce que celle-ci change vite. Il serait dommage que beaucoup renoncent à se rendre sur telle ou telle plage, au détriment des commerçants ou de la vie locale, alors qu'une forte pluie peut laisser place à un ciel radieux en quelques minutes seulement!
+
+## Installation
+
+1. La méthode la plus simple est de se rendre sur le [#todo](Google Playstore)
+
+2. En téléchargeant le code source.

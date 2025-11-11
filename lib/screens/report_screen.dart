@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../models/beach_report.dart';
 import '../services/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'comments_screen.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -301,7 +302,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (selectedBeach == null) {
                     showDialog(
                       context: context,
@@ -322,6 +323,30 @@ class _ReportScreenState extends State<ReportScreen> {
                       commentController.text.isEmpty) {
                     _showEmptyReportDialog();
                   } else {
+                    final userId = FirebaseAuth.instance.currentUser?.uid;
+
+                    if (userId == null) {
+                      return;
+                    }
+
+                    final canAdd = await firestore.canAddReport(userId);
+                    if (!canAdd) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Limite atteinte'),
+                          content: const Text(
+                              'Vous pouvez soumettre un avis seulement une fois toutes les 2 heures.'),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('OK')),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+
                     firestore.addReport(BeachReport(
                       beachId: selectedBeach!.toLowerCase().trim().replaceAll(
                           RegExp(r'\s+'),
@@ -336,6 +361,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       comment: commentController.text.isEmpty
                           ? null
                           : commentController.text,
+                      userId: FirebaseAuth.instance.currentUser?.uid,
                       timestamp: DateTime.now(),
                     ));
                     Navigator.pop(context);

@@ -52,7 +52,7 @@ class CommentsScreen extends StatelessWidget {
               return ListTile(
                 title: Text(
                   '"${report.comment}"',
-                  style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
                 ),
                 subtitle: Text(
                   _timeAgo(report.timestamp),

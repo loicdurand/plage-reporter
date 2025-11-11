@@ -5,7 +5,7 @@
 ## Introduction
 
 Chaque samedi, chaque dimanche, se pose la même question: quelle plage aujourd'hui?
-S'en suit toujours le meme dialogue: 
+S'en suit toujours le même dialogue: 
 - Anse-Bertrand?
 - Ça serait super mais s'il y a des sargasses?
 - Port-Louis?

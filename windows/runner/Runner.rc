@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.loicdurand" "\0"
-            VALUE "FileDescription", "sablesargasses" "\0"
+            VALUE "FileDescription", "kantan_gwadloup" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "sablesargasses" "\0"
+            VALUE "InternalName", "kantan_gwadloup" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.loicdurand. All rights reserved." "\0"
-            VALUE "OriginalFilename", "sablesargasses.exe" "\0"
-            VALUE "ProductName", "sablesargasses" "\0"
+            VALUE "OriginalFilename", "kantan_gwadloup.exe" "\0"
+            VALUE "ProductName", "kantan_gwadloup" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

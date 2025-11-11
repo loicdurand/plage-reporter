@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: isActive ? colorScheme.primary : colorScheme.surfaceVariant,
+          color: isActive ? colorScheme.primary : colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive ? colorScheme.primary : colorScheme.outline,
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sable & Sargasses')),
+      appBar: AppBar(title: const Text('Kantan Gwadloup!')),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               child: const Text(
-                'Sable & Sargasses',
+                'Kantan Gwadloup!',
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
@@ -152,9 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           final latestReport = reportSnapshot.data!.first;
                           imagePath = latestReport.imagePath;
                         } else {
-                          imagePath = '${beachId}-min.jpg';
+                          imagePath = "$beachId-min.jpg";
                         }
-
                         return BeachCard(
                           imagePath: imagePath,
                           beachName: beachName,

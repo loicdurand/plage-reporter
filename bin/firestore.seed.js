@@ -15,16 +15,15 @@ const values = {
   crowdLevel: 2,
   noiseLevel: 2,
   "rating": 1,
-  "timestamp": (new Date()).toLocaleString(),
 };
 
 const beaches = [
-  // {
-  //   "beachId": "anse-bertrand-plage-de-la-chapelle",
-  //   "beachName": "Anse-Bertrand - Plage de la Chapelle",
-  //   "comment": "Une très jolie plage, avec parfois quelques vagues. Le point fort est l'aire de jeu sur place et la facilité à trouver de l'ombre!",
-  //   ...values
-  // },
+  {
+    "beachId": "anse-bertrand-plage-de-la-chapelle",
+    "beachName": "Anse-Bertrand - Plage de la Chapelle",
+    "comment": "Une très jolie plage, avec parfois quelques vagues. Le point fort est l'aire de jeu sur place et la facilité à trouver de l'ombre!",
+    ...values
+  },
   {
     "beachId": "Bouillante---Plage-de-Malendure",
     "beachName": "Bouillante - Plage de Malendure",
@@ -51,13 +50,13 @@ const beaches = [
     ...values
   },
   {
-    "beachId": "Le-Gosier---Îlet-du-Gosier",
+    "beachId": "Le-Gosier---Ilet-du-Gosier",
     "beachName": "Le Gosier - Îlet du Gosier",
     "comment": "Quel endroit fantastique! Pas de vague, eaux turquoises et sable fin et... Le côté Robinson Crusoé en plus!",
     ...values
   },
   {
-    "beachId": "La-désirade---Plage-à-Fifi",
+    "beachId": "La-desirade---Plage-A-Fifi",
     "beachName": "La désirade - Plage à Fifi",
     "comment": "La Désirade, si vous la visitez en dehors de la saison des sargasses, c'est quelque chose!",
     ...values
@@ -75,7 +74,7 @@ const beaches = [
     ...values
   },
   {
-    "beachId": "Marie-Galante---Plage-de-la-Feuillère",
+    "beachId": "Marie-Galante---Plage-de-la-Feuillere",
     "beachName": "Marie-Galante - Plage de la Feuillère",
     "comment": "Si vous vous demandez pourquoi tout le monde parle de Marie-Galante!",
     ...values
@@ -105,7 +104,7 @@ const beaches = [
     ...values
   },
   {
-    "beachId": "St-François---Plage-des-raisins-clairs",
+    "beachId": "St-Francois---Plage-des-raisins-clairs",
     "beachName": "St-François - Plage des raisins clairs",
     "comment": "St-François, ça vaut le détour! Ne serait-ce pour tout ce que l'on peut faire sur place.",
     ...values
@@ -130,10 +129,9 @@ async function deleteReports() {
 async function insertBeaches() {
   try {
     for (const beach of beaches) {
-      beach.beachId = beach.beachName.trim().toLowerCase().replaceAll(' ', '-');
-      beach.imagePath = `${beach.beachId}-min.jpg`;
+      beach.beachId = beach.beachId.toLocaleLowerCase().replace('---', '-');
       await reports.add(beach);
-      console.log(`Inséré : ${beach.beachId}`);
+      console.log(`Inséré : ${beach.beachName} (beachId: ${beach.beachId})`);
     }
     console.log('Migration terminée !');
   } catch (error) {
@@ -142,10 +140,8 @@ async function insertBeaches() {
 }
 
 deleteReports().then(() => {
+  // process.exit(0);
+  insertBeaches().then(() => process.exit(0));
 
-  insertBeaches().then(() => {
-    console.log('Tous les inserts terminés.');
-    process.exit(0);
-  });
 
 });

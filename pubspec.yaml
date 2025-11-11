@@ -25,6 +25,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
@@ -33,20 +34,20 @@ flutter:
     - assets/splash_icon.png
     - assets/app_icon.png
     - assets/beach.jpg
-    - assets/images/
     - assets/images/placeholder_beach.jpg
-    - assets/images/anse-bertrand---plage-de-la-chapelle-min.jpg
-    - assets/images/bouillante---plage-de-malendure-min.jpg
-    - assets/images/deshaies---plage-de-la-grande-anse-min.jpg
-    - assets/images/deshaies---plage-de-la-perle-min.jpg
-    - assets/images/gosier---plage-de-la-datcha-min.jpg
-    - assets/images/gosier---plage-ilet-du-gosier-min.jpg
-    - assets/images/la-desirade---plage-a-fifi-min.jpg
-    - assets/images/le-moule---plage-de-l'autre-bord-min.jpg
-    - assets/images/les-saintes---plage-du-pain-de-sucre-min.jpg
-    - assets/images/marie-galante---plage-de-la-feuillere-min.jpg
-    - assets/images/port-louis---plage-du-souffleur-min.jpg
-    - assets/images/ste-anne---plage-de-la-caravelle-min.jpg
-    - assets/images/ste-anne---plage-du-bourg-min.jpg
-    - assets/images/ste-rose---plage-de-cluny-min.jpg
-    - assets/images/st-françois---plage-des-raisins-clairs-min.jpg
+    - assets/images/plage-de-cluny.jpg
+    - assets/images/anse-bertrand-plage-de-la-chapelle-min.jpg
+    - assets/images/bouillante-plage-de-malendure-min.jpg
+    - assets/images/deshaies-plage-de-la-grande-anse-min.jpg
+    - assets/images/deshaies-plage-de-la-perle-min.jpg
+    - assets/images/le-gosier-plage-de-la-datcha-min.jpg
+    - assets/images/le-gosier-ilet-du-gosier-min.jpg
+    - assets/images/la-desirade-plage-a-fifi-min.jpg
+    - assets/images/le-moule-plage-de-l'autre-bord-min.jpg
+    - assets/images/les-saintes-plage-du-pain-de-sucre-min.jpg
+    - assets/images/marie-galante-plage-de-la-feuillere-min.jpg
+    - assets/images/port-louis-plage-du-souffleur-min.jpg
+    - assets/images/ste-anne-plage-de-la-caravelle-min.jpg
+    - assets/images/ste-anne-plage-du-bourg-min.jpg
+    - assets/images/ste-rose-plage-de-cluny-min.jpg
+    - assets/images/st-francois-plage-des-raisins-clairs-min.jpg

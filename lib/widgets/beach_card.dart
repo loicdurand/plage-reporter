@@ -183,80 +183,9 @@ class _BeachCardState extends State<BeachCard> {
                             }
                             // === FIN FILTRES ===
 
-<<<<<<< HEAD
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _timeAgo(report.timestamp),
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[600]),
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  _getLevelIcon(
-                                      report.sargassesLevel, Icons.eco),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(report.wavesLevel, Icons.waves),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(
-                                      report.crowdLevel, Icons.people),
-                                  const SizedBox(width: 8),
-                                  _getLevelIcon(
-                                      report.noiseLevel, Icons.volume_up),
-                                ],
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  ...List.generate(
-                                      5,
-                                      (i) => Icon(
-                                            i < report.rating
-                                                ? Icons.star
-                                                : Icons.star_border,
-                                            color: Colors.amber,
-                                            size: 16,
-                                          )),
-                                  const SizedBox(width: 6),
-                                  Text("${reports.length} avis",
-                                      style: const TextStyle(fontSize: 12)),
-                                  const Spacer(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      final levelText = (level) => [
-                                            'Aucun',
-                                            'Peu gênant',
-                                            'Gênant',
-                                            'Impraticable'
-                                          ][level];
-
-                                      final message = Uri.encodeComponent(
-                                          "Plage ${report.beachName} :\n"
-                                          "• Sargasses : ${levelText(report.sargassesLevel)}\n"
-                                          "• Vagues : ${levelText(report.wavesLevel)}\n"
-                                          "• Foule : ${levelText(report.crowdLevel)}\n"
-                                          "• Bruit : ${levelText(report.noiseLevel)}\n"
-                                          "• Note : ${report.rating} étoiles\n"
-                                          "${report.comment != null ? 'Quote: \"${report.comment}\"' : ''}");
-
-                                      final url =
-                                          'https://wa.me/?text=$message';
-                                      launchUrl(Uri.parse(url));
-                                    },
-                                    child: const Icon(Icons.share,
-                                        size: 20, color: Colors.green),
-                                  ),
-                                ],
-                              ),
-                              if (report.comment != null) ...[
-                                const SizedBox(height: 4),
-=======
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
->>>>>>> finalisations
                                 Text(
                                   _timeAgo(report.timestamp),
                                   style: TextStyle(
